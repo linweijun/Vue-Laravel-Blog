@@ -1,0 +1,2 @@
+export clientId = ''
+export clientSecret = ''
