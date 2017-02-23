@@ -6,7 +6,7 @@ export const registerUrl = apiDomain + 'api/register'
 export const getHeader = function () {
   const tokenData = JSON.parse(window.localStorage.getItem('authUser'))
   const headers = {
-    'Accept': 'application/json',
+    'Accept': 'dasda',
     'Authorization': 'Bearer ' + tokenData.access_token
   }
 

@@ -10,6 +10,7 @@
     "lint": "eslint --ext .js,.vue src"
   },
   "dependencies": {
+    "axios": "^0.15.3",
     "bulma": "^0.2.3",
     "less-loader": "^2.2.3",
     "mini-toastr": "^0.3.10",

@@ -3,6 +3,7 @@
   import {clientId, clientSecret} from './../env'
   import {mapState} from 'vuex'
   import Notifications from 'vue-notifications'
+  import axios from 'axios'
   export default {
     computed: {
       ...mapState({
@@ -28,14 +29,14 @@
           scope: ''
         }
         const authUser = {}
-        this.$http.post(loginUrl, postData)
+        axios.post(loginUrl, postData)
           .then(response => {
             if (response.status === 200) {
               console.log('oauth token', response)
               authUser.access_token = response.data.access_token
               authUser.refresh_token = response.data.refresh_token
               window.localStorage.setItem('authUser', JSON.stringify(authUser))
-              this.$http.get(userUrl, {headers: getHeader()})
+              axios.get(userUrl, {headers: getHeader()})
                 .then(response => {
                   console.log('user Object', response)
                   authUser.email = response.body.email
@@ -99,5 +100,5 @@
 
 <style lang="sass">
   #login-wrapper
-    margin-top : 50px;
+    margin-top : 50px
   </style>
