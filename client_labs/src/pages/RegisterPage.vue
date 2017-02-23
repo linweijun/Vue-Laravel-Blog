@@ -1,6 +1,7 @@
 <script>
-  import {loginUrl, getHeaderClient} from './../config'
+  import {loginUrl, getHeaderClient, registerUrl} from './../config'
   import {clientId, clientSecret} from './../env'
+  import Notifications from 'vue-notifications'
   export default {
     data () {
       return {
@@ -34,15 +35,29 @@
         this.$http.post(loginUrl, postData)
           .then(response => {
             if (response.status === 200) {
-              console.log(response)
               clientAuth.access_token = response.data.access_token
               window.localStorage.setItem('clientAuth', JSON.stringify(clientAuth))
+              this.$http.post(registerUrl,
+                postDataRegister, {headers: getHeaderClient()})
+                .then(response => {
+                  if (response.status === 200) {
+                    Notifications.success({message: '成功注册'})
+                  }
+                }, response => {
+                  var validatorEmail = ''
+                  if (response.body.email) {
+                    validatorEmail = response.body.email
+                  }
+                  var validatorpassword = ''
+                  if (response.body.password) {
+                    validatorpassword = response.body.password
+                  }
+                  const validators = validatorEmail + validatorpassword
+                  Notifications.warn({message: validators, timeout: 15000})
+                })
             }
-            this.$http.post('http://127.0.0.1:8000/api/register',
-              postDataRegister, {headers: getHeaderClient()})
-              .then(response => {
-                console.log(response)
-              })
+          }, response => {
+            Notifications.error({message: '系统有炸弹，拆弹中…………'})
           })
       }
 
